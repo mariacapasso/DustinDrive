@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <!-- Received message bubble -->
+    <TextView
+        android:id="@+id/textReceived"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_received"
+        android:padding="10dp"
+        android:textColor="@android:color/black"
+        android:layout_gravity="start"
+        android:visibility="gone"
+        android:textSize="16sp" />
+
+    <!-- Sent message bubble -->
+    <TextView
+        android:id="@+id/textSent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_sent"
+        android:padding="10dp"
+        android:textColor="@android:color/white"
+        android:layout_gravity="end"
+        android:visibility="gone"
+        android:textSize="16sp" />
+
+</LinearLayout>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <FrameLayout
+        android:id="@+id/frame_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/bianco"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_nav_menu"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+<!-- <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:padding="16dp" xmlns:tools="http://schemas.android.com/tools">
+
+ TextView per mostrare lo stato della connessione
+<TextView
+    android:id="@+id/connectionStatus"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Status: Disconnected"
+    android:paddingTop="8dp"
+    android:textSize="18sp"
+    android:textColor="@color/black"
+    android:textStyle="bold"
+    android:textAlignment="center"
+    />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/deviceTx"
+        android:text="Dispositivi Bluetooth rilevati"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:textStyle="italic"
+    />
+
+ Lista dispositivi -->
+
+    <!-- Bottone per iniziare la ricerca
+    <ListView
+        android:id="@+id/deviceList"
+        android:layout_width="wrap_content"
+        android:layout_height="561dp"
+        android:layout_weight="1"
+        android:divider="#CCCCCC"
+        android:dividerHeight="1dp"
+        tools:listitem="@layout/device_item" />
+
+    <Button
+        android:id="@+id/scanButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Trova Dispositivi Bluetooth"
+        android:background="@color/blue"/>
+
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6sp"
+        android:text="AVANTI"
+        android:background="@color/blue"/>
+</LinearLayout> -->

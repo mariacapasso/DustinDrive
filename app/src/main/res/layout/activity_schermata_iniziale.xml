@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/schermata_iniziale"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--  Background fullscreen -->
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/tech"
+        android:fitsSystemWindows="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Titolo -->
+    <!--  Sottotitolo -->
+
+    <!--  Icona volante -->
+
+
+    <!-- Bottone -->
+
+    <TextView
+        android:id="@+id/dustin"
+        android:layout_width="237dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="108dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="DUSTIN"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="50sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/frase"
+        android:layout_width="399dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/roboto_lightitalic"
+        android:gravity="center"
+        android:paddingHorizontal="24dp"
+        android:text="Sistema di monitoraggio per la sicurezza della guida"
+        android:textColor="#FFFFFF"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dustin" />
+
+    <ImageView
+        android:id="@+id/icona"
+        android:layout_width="500dp"
+        android:layout_height="354dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/volante"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frase" />
+
+    <Button
+        android:id="@+id/btnInizia"
+        android:layout_width="378dp"
+        android:layout_height="72dp"
+        android:layout_marginBottom="64dp"
+        android:background="@drawable/btninizia_rounded"
+        android:text="INIZIA"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/white"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

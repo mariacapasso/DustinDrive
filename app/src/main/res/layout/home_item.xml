@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:layout_marginTop="5dp"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="4dp">
+
+
+    <LinearLayout
+        android:id="@+id/clickCard"
+        android:layout_width="235dp"
+        android:layout_height="133dp"
+        android:clickable="true"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+
+        <ImageView
+            android:id="@+id/img_icona"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/b_home" />
+
+        <TextView
+            android:id="@+id/txt_titolo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Titolo"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+
+        <TextView
+            android:id="@+id/txt_uso"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/roboto_light"
+            android:text="Uso"
+            android:textSize="14sp" />
+
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Home"
+        android:id="@+id/nav_home"
+        android:icon="@drawable/home" />
+
+    <item android:title="Bluetooth"
+        android:id="@+id/nav_bluetooth"
+        android:icon="@drawable/find_device" />
+
+    <item android:title="Dashboard"
+        android:id="@+id/nav_dashboard"
+        android:icon="@drawable/dashboard" />
+
+    <item android:title="Mappe"
+        android:id="@+id/nav_mappe"
+        android:icon="@drawable/map" />
+</menu>
