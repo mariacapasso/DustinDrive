@@ -5,15 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:background="@color/gray_background">
 
     <!-- HEADER -->
     <TextView
         android:id="@+id/header"
         android:layout_width="0dp"
-        android:layout_height="54dp"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:paddingStart="16dp"
+        android:paddingTop="40dp"
         android:background="@drawable/black_border"
         android:text="Scan Bluetooth"
         android:textSize="22sp"

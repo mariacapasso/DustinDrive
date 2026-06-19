@@ -5,24 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.HomeFragment">
-
-    <!-- TODO: Update blank fragment layout
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Home Fragment"
-        android:textSize="26dp"
-        android:layout_gravity="center"/>-->
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/home_content_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+    tools:context=".View.HomeFragment"
+    android:background="@color/gray_background">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/background"
@@ -41,27 +25,73 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/color_gradient"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingTop="30dp">
 
                     <ImageView
                         android:id="@+id/icona"
-                        android:layout_width="94dp"
-                        android:layout_height="79dp"
-                        android:contentDescription="TODO"
-                        android:src="@mipmap/icona_foreground" />
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/volante"
+                        android:scaleType="centerCrop"/>
 
                     <TextView
                         android:id="@+id/dustin_drive"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginStart="16dp"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto_bold"
                         android:text="@string/dustin_drive"
                         android:textColor="@color/black"
                         android:textSize="22sp" />
                 </LinearLayout>
+
+                <!-- BOX INFO -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/info_rounded"
+                    android:padding="16dp"
+                    android:layout_margin="10dp">
+
+                    <ImageView
+                        android:id="@+id/infoIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="8dp"
+                        android:src="@drawable/info"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/titleInfo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Connessione Richiesta"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toEndOf="@id/infoIcon"
+                        app:layout_constraintTop_toTopOf="@id/infoIcon" />
+
+                    <TextView
+                        android:id="@+id/descInfo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="È necessario stabilire una connessione bluetooth con il dispositivo DUSTIN per visualizzare i dati sensoriali in tempo reale"
+                        android:textColor="@color/gray1"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/titleInfo"
+                        app:layout_constraintTop_toBottomOf="@id/titleInfo" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -174,54 +204,10 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="20dp" />
 
-                <!-- BOX INFO -->
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/info_rounded"
-                    android:padding="16dp"
-                    android:layout_margin="10dp">
-
-                    <ImageView
-                        android:id="@+id/infoIcon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginStart="8dp"
-                        android:src="@drawable/info"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/titleInfo"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="Connessione Richiesta"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toEndOf="@id/infoIcon"
-                        app:layout_constraintTop_toTopOf="@id/infoIcon" />
-
-                    <TextView
-                        android:id="@+id/descInfo"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="È necessario stabilire una connessione bluetooth con il dispositivo DUSTIN per visualizzare i dati sensoriali in tempo reale"
-                        android:textColor="@color/gray1"
-                        android:textSize="14sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@id/titleInfo"
-                        app:layout_constraintTop_toBottomOf="@id/titleInfo" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+   <!-- </androidx.swiperefreshlayout.widget.SwipeRefreshLayout> -->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

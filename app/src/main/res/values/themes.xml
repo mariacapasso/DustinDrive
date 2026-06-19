@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="Theme.BluetoothApp" parent="Theme.Material3.Light.NoActionBar">
-        <!--  <style name="CircleCorner">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">15dp</item>
-    </style> -->
+        <item name="bottomNavigationStyle">@style/Widget.App.BottomNavigationView</item>
+    </style>
+
+    <style name="Widget.App.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="itemActiveIndicatorStyle">@style/Widget.App.BottomNavigationView.ActiveIndicator</item>
+    </style>
+
+    <style name="Widget.App.BottomNavigationView.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:backgroundTint">@color/gray</item>
 
     </style>
-    <!-- Base application theme.
-    <style name="Base.Theme.BluetoothApp" parent="Theme.Material3.DayNight.NoActionBar">
-        Customize your light theme here.
-         <item name="colorPrimary">@color/my_light_primary</item>
-    </style> -->
 </resources>

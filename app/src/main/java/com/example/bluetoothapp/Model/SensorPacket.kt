@@ -11,10 +11,10 @@ class SensorPacket (private val rawBytes: ByteArray) {
     val sensor_type= SensorTYPE.from(type)
 
     // Estraiamo il timestamp (byte 2,3,4,5)
-    val ts = ((rawBytes[2].toInt() and 0xFF) shl 24) or
-            ((rawBytes[3].toInt() and 0xFF) shl 16) or
-            ((rawBytes[4].toInt() and 0xFF) shl 8) or
-            (rawBytes[5].toInt() and 0xFF)
+    val ts = ((rawBytes[2].toLong() and 0xFF) shl 24) or
+            ((rawBytes[3].toLong() and 0xFF) shl 16) or
+            ((rawBytes[4].toLong() and 0xFF) shl 8) or
+            (rawBytes[5].toLong() and 0xFF)
 
     // Dati grezzi a 24 bit (Offset 6-8)
     val sensorValue: Int = (
@@ -26,9 +26,9 @@ class SensorPacket (private val rawBytes: ByteArray) {
 
 
 
-    /**
-     * Verifica la validità del pacchetto confrontando il CRC ricevuto
-     */
+
+     // Verifica la validità del pacchetto confrontando il CRC ricevuto
+
     fun isValid(): Boolean {
         if (rawBytes[0] != 0xA5.toByte() || rawBytes[11] != 0x0A.toByte()) return false
 

@@ -80,16 +80,6 @@
             app:layout_constraintTop_toTopOf="@id/icona_bluetooth"
             app:layout_constraintBottom_toBottomOf="@id/icona_bluetooth"/>
 
-        <ImageView
-            android:id="@+id/iconaChevron"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:src="@android:drawable/ic_media_play"
-            android:alpha="0.25"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

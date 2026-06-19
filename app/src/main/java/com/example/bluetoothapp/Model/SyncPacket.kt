@@ -3,10 +3,10 @@ package com.example.bluetoothapp.Model
 import android.util.Log
 import java.time.Instant
 
-class SyncPacket {
+object SyncPacket{
 
     fun costruisci_pacchetto(): ByteArray {
-        Log.d("BT_DEBUG","Entra in costruisciPaccetto")
+        Log.d("BT_DEBUG","Entra in costruisciPacchetto")
 
         val packet = ByteArray(13)
         packet[0]=0xA5.toByte()
