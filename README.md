@@ -137,5 +137,5 @@ Apri il terminale della tua macchina locale o l'interfaccia Git integrata nel tu
 #### Passo 5: Test di Connessione con il Sensore
 1. Assicurati che il dispositivo **DUSTIN** sia acceso e in modalità di trasmissione.
 2. Naviga nella sezione **Bluetooth** dell'applicazione **DUSTIN Drive** dall'interfaccia utente.
-3. Clicca su **"Avvia Ricerca"**: non appena il nome del sensore compare nella lista della RecyclerView, selezionalo per stabilire l'accoppiamento hardware. I grafici nella Dashboard inizieranno a popolare i dati in tempo reale. Una volta che l'utente si disconnetterà al dispositivo, verrà visualizzato un Toast sia nella schermata **Bluetooth** sia nella schermata **Home** di avvenuta esportazione dei dati ricevuti e memorizzati nel database.
+3. Clicca su **"Ricerca Dispositivi"**: non appena il nome del sensore compare nella lista della RecyclerView, selezionalo per stabilire l'accoppiamento hardware. I grafici nella Dashboard inizieranno a popolare i dati in tempo reale. Una volta che l'utente si disconnetterà al dispositivo, verrà visualizzato un Toast sia nella schermata **Bluetooth** sia nella schermata **Home** di avvenuta esportazione dei dati ricevuti e memorizzati nel database.
 4. Andare nei **Downloads** dello smartphone per visualizzare i dati esportati nel file `.csv`.
