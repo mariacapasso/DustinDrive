@@ -30,15 +30,14 @@ Le classi presenti all'interno del package **View** sono:
 Classi che si occupano della gestione della visualizzazione dinamica delle liste all'interno di `RecyclerView`.
 * **`DeviceAdapter`** collega i dispositivi Bluetooth rilevati (`BluetoothDevice`) agli elementi grafici della lista di ricerca.
 * **`ItemHomeAdapter`** gestisce le card di navigazione nella Home.
-* **`LiveDataAdapter`** popola la lista dei dati ricevuti in tempo reale .
-* **`ViewHolder`** è una classe interna riutilizzabile (estende `RecyclerView.ViewHolder`) che mantiene i riferimenti ai widget della riga per evitare chiamate ripetute a `findViewById`.Espone elementi come `name`, `stato` e il pulsante `disconnetti.
+* **`LiveDataAdapter`** popola le card nella Home con i dati ricevuti in tempo reale .
+* **`ViewHolder`** è una classe interna riutilizzabile (estende `RecyclerView.ViewHolder`) che mantiene i riferimenti ai widget della riga per evitare chiamate ripetute a `findViewById`.Espone elementi come `name`, `stato` e il pulsante `disconnetti`.
 
 ### 2. Model
-Rappresenta i dati e la logica di dominio dell'applicazione. Sono calssi di dati pure senza dipendere dall'interfaccia utente.
+Rappresenta i dati e la logica di dominio dell'applicazione. Sono classi di dati pure senza dipendere dall'interfaccia utente.
 Le classi presenti all'interno del package **Model** sono:
-- **SyncPacket** è un `object` contenente la funzione `costruisci_pacchetto() : ByteArray` che si occupa della costruzione del pacchetto di sincronizzazione da inviare al dispositivo **DUSTIN** per sincronizzare i tempi sul microcontrollore. Si tratta di un array di 13 byte con timestamp corrente `Instan.now()` a 64 bit e CRC16 calcolato su `Utility.calcola_crc16`.
-- **SensorPacket** è una classe che rappresenta i pacchetti grezzi di 12 byte trasmessi dal coprivolante via Bluetooth. Il costruttore richiede esattamente 12 byte(`require`), altrimenti lancia un'eccezione. Il metodo `isValid() : Boolean` verifica se un pacchetto ricevuto sia valido confrontando il CRC ricevuto. Al suo interno vi è la classe `enum class SensorTYPE` che elenca i tipi di sensori supportati col relativo valore byte. `Companion: from(value: Int): SensorTYPE?`:lookup inverso byte → enum,
-ritorna null se il byte non corrisponde a nessun tipo noto.
+- **SyncPacket** è un `object` contenente la funzione `costruisci_pacchetto() : ByteArray` che si occupa della costruzione del pacchetto di sincronizzazione da inviare al dispositivo **DUSTIN** per sincronizzare i tempi sul microcontrollore. Si tratta di un array di 13 byte con timestamp corrente `Instant.now()` a 64 bit e CRC16 calcolato su `Utility.calcola_crc16`.
+- **SensorPacket** è una classe che rappresenta i pacchetti grezzi di 12 byte trasmessi dal coprivolante via Bluetooth. Il costruttore richiede esattamente 12 byte(`require`), altrimenti lancia un'eccezione. Il metodo `isValid() : Boolean` verifica se un pacchetto ricevuto sia valido confrontando il CRC ricevuto. Al suo interno vi è la classe `enum class SensorTYPE` che elenca i tipi di sensori supportati col relativo valore byte. `Companion: from(value: Int): SensorTYPE?`:ritorna null se il byte non corrisponde a nessun tipo noto.
 - **PacketParser** è un `object` che contiene metodi che consentono di effettuare il parsing dei dati ricevuti come: `startParse(SensorPacket)` che riceve un pacchetto grezzo e ritorna un oggetto `ParsedPacket` tipizzato; `calcolaPercentualeBatteria(Double)` che converte la tensione letta in un valore percentuale; `convertTimeStamp(Long)` che converte il timestamp calcolato in formato `DateTime`. 
 - **ParsedPacket** è una `sealed class` che rappresenta i dati tipizzati estratti dai sensori suddivisi nelle strutture interne dedicate: `Battery`, `Touch`, `TAC`, `PPG`.
 - **TimeStampSync** è un `object` che contiene metodi che calcolano il tempo effettivo in cui è stato ricevuto il pacchetto. Il metodo `onSyncSent(Long)` viene chiamato quando viene inviato `SyncPacket` la prima volta e calcola il tempo di accensione del microcontrollore;
@@ -48,13 +47,13 @@ ritorna null se il byte non corrisponde a nessun tipo noto.
 - **ItemHomeCard** è una `data class` per le card di navigazione nella Home.
 
 #### Persistenza Dati
-Per la memorizzazione in locale dei dati è stato utilizzato **Room Database** che è una libreria di persistenza che fornisce uno strato di astrazione sul database SQLite per consentire un database più robusto. La scelta è ricaduta su di esso in quanto rende i dati osservabili e aggiorna automaticamente l'interfaccia utente ed inoltre supporta le **Coroutines**, ossia gestisce le query nei thread in background per migliori prestazioni.
+Per la memorizzazione in locale dei dati è stato utilizzato **Room Database** che è una libreria di persistenza che fornisce uno strato di astrazione sul database **SQLite** per consentire un database più robusto. La scelta è ricaduta su di esso in quanto rende i dati osservabili e aggiorna automaticamente l'interfaccia utente ed inoltre supporta le **Coroutines**, ossia gestisce le query nei thread in background per migliori prestazioni.
 Le classi presenti all'interno del package **db** sono:
 - **SensorDataEntity** che rappresenta la tabella **Packet** all'interno del database;
 - **SensorDataDAO** che contiene i metodi per effettuare operazione sul database come:
    - `addData(SensorDataEntity)`: aggiunge i dati all'interno del database;
    - `getAllData()`: che ritorna tutti i dati presenti nel database. Utile per effettuare l'esportazione di tutti i dati memorizzati.
-   - `getDataAfter(lastId: Long)`: ritorna i dati memorizzati successivi al pacchetto con un certo id. Questa funzione viene usata per esportare i dati presenti nel database in seguito alla prima esportazione, ossia non mi esporta tutto il database, ma parte dall'ultimo pacchetto che ha già esportato.
+   - `getDataAfter(lastId: Long)`: ritorna i dati memorizzati successivi al pacchetto con un certo id. Questa funzione viene usata per esportare i dati presenti nel database in seguito alla prima esportazione, ossia non esporta tutto il database, ma parte dall'ultimo pacchetto che ha già esportato.
 - **SensorDataRepository** funge da intermediario che astrae l'accesso al database.Il ViewModel non parla mai direttamente con il DAO, ma richiede le operazioni al Repository, garantendo la possibilità futura di modificare il codice senza toccare la logica utente.
 - **SensorDataDB** contiene l'istanza del database e collega le DAO e le entità.
 
@@ -63,16 +62,16 @@ Questo livello si occupa della gestione della connessione persistente e della ma
 * **SharedViewModel**: Il nucleo centrale dell'applicazione.Condiviso tra tutti i Fragment tramite `activityViewModels()`, possiede e coordina:
   - **Accelerometro(SensorManager)** che calcola la norma vettoriale dell'accelerazione e ne mantiene la media su finestre temporali di 15 secondi;
   - **GPS(FusedLocationProviderClient)** che aggiorna la posizione attuale dell'utente ogni secondo;
-  - **Flusso di dati Bluetooth**: delega il parsing a `PacketParser` e salva i pacchetti(eccetto quelli PPG) tramite `SendorDataRepository`.
+  - **Flusso di dati Bluetooth**: delega il parsing a `PacketParser` e salva i pacchetti(eccetto quelli PPG) tramite `SensorDataRepository`.
     Uno dei metodi principali presenti in questa classe è `exportedDataToCsvFile()` che si occupa di esportare i dati non ancora esportati,presenti nel database, in un file `.csv` tenendo traccia di un cursore(`lats_exported_id`) salvato in `SharedPreferences`.
 * **BluetoothConnectionManager**: Un manager strutturato come Singleton che incapsula la logica delle API Bluetooth Android. Gestisce il ciclo di vita del `BluetoothSocket`, monitora gli stati di connessione (`ConnectionState`) e orchestra i tentativi di riconnessione automatica.
   Metodi principali: - `startDiscovery()` / `stopDiscovery()`: scansione dispositivi tramite `BroadcastReceiver` in ascolto su `ACTION_FOUND`;
     - `connect(device)`: apre un `socket RFCOMM` e avvia la lettura continua dei dati (`listen()`);
     - `disconnect()`:chiusura esplicita della connessione;
     - `reconnect()`: tentativo automatico di riconnessione in caso di errore di comunicazione, con numero di tentativi (5) e intervallo configurabili;
-    - `sendPacket()`: invia un `SyncPacket` per la sincronizzazione orologio.
+    - `sendPacket()`: invia un `SyncPacket` per la sincronizzazione orologio. Il pacchetto di sincronizzazione viene inviato ogni 30s.
 Al suo interno vi è la `sealed class ConnactionState()` che modella lo stato di connessione Bluetooth, osservato come `StateFlow` sia dai Fragment che dal ViewModel.
-* **BluetoothService**: Foreground service che mantiene attiva l'istanza di `BluetoothConnectionManager` anche quando l'app passa in background, mostrando una notifica persistente (silenziosa) all'utente. Viene avviato dalla **schermata Bluetooth** nel momento in cui l'utente vi accede, e resta attivo anche dopo che l'utente naviga verso altre schermate o disconnette il dispositivo, garantendo continuità nella raccolta dati a condizione che l'utente sia passato almeno una volta dalla schermata Bluetooth durante la sessione corrente.
+* **BluetoothService**: **Foreground service** che mantiene attiva l'istanza di `BluetoothConnectionManager` anche quando l'app passa in background, mostrando una notifica persistente (silenziosa) all'utente. Viene avviato dalla **schermata Bluetooth** nel momento in cui l'utente vi accede, e resta attivo anche dopo che l'utente naviga verso altre schermate o disconnette il dispositivo, garantendo continuità nella raccolta dati a condizione che l'utente sia passato almeno una volta dalla schermata Bluetooth durante la sessione corrente.
 
 # Tecnologie Utilizzate 
 - Linguaggio di programmazione usato per lo sviluppo dell'applicazione : **Kotlin** .
@@ -97,7 +96,7 @@ Sulle versioni legacy di Android, l'accesso all'hardware Bluetooth e la scansion
 
 ### 2. Dispositivi con Android 12 o superiori (API $\ge$ 31)
 A partire da Android 12, Google ha separato nettamente i permessi di scansione Bluetooth da quelli della posizione geografica, introducendo i permessi di runtime dedicati.
-- `BLUETOOTH_SCAN`: Permette di cercare i dispositivi nelle vicinanze. Nel Manifest è configurato con il flag **android:usesPermissionFlags="neverForLocation"**, il che dichiara esplicitamente al sistema operativo che l'app non usa la scansione Bluetooth per tracciare la posizione geografica dell'utente (riducendo l'impatto sulla privacy).
+- `BLUETOOTH_SCAN`: Permette di cercare i dispositivi nelle vicinanze. Nel Manifest è configurato con il flag **android:usesPermissionFlags="neverForLocation"**, il che dichiara esplicitamente al sistema operativo che l'app non usa la scansione Bluetooth per tracciare la posizione geografica dell'utente.
 - `BLUETOOTH_CONNECT`: Permette all'applicazione di stabilire la connessione **RFCOMM (Socket)** e interagire con il sensore accoppiato.
 
 ### 3. Servizi in Background ed Esportazione (Tutte le API supportate)
