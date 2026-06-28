@@ -69,7 +69,7 @@ class DeviceAdapter (
     }
 
     override fun getItemCount(): Int = devices.size
-    //aggiorna lista dispositivi e mette il dispositivo connesso in cima
+    //aggiorna lista dispositivi
     fun updateList(newDevices: List<BluetoothDevice>) {
         devices.clear()
         devices.addAll(newDevices)

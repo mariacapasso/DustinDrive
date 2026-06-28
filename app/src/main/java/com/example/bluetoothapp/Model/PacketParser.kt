@@ -9,7 +9,7 @@ import java.util.Locale
 
 object PacketParser {
 
-    fun startParse(packet: SensorPacket): ParsedPacket? /*LiveDataModel?*/ {
+    fun startParse(packet: SensorPacket): ParsedPacket? {
         val rawTimeStamp=TimeStampSync.computeTimestamp(packet.ts)
         val timestamp = convertTimeStamp(rawTimeStamp)
         return when (packet.sensor_type) {
@@ -50,34 +50,7 @@ object PacketParser {
 
                 null -> null
         }
-}      /* SensorTYPE.Batteria -> {
-                val tensione = packet.sensorValue.toDouble() / 1000.0
-             val percentuale = calcolaPercentualeBatteria(tensione)
-                    LiveDataModel("Livello di Batteria", "$percentuale %", "Tensione: ${String.format("%.2f", tensione)}V", R.drawable.batteria)
-            }
-
-            SensorTYPE.Touch -> {
-                val numElettrodi = numeroElettrodiAttivi(packet.sensorValue)
-                val stato = if (numElettrodi > 0) "ATTIVO" else "NON ATTIVO"
-                val dettaglio = if (numElettrodi > 0) "$numElettrodi rilevati" else "Nessun tocco"
-                LiveDataModel("Touch", stato, dettaglio, R.drawable.fingerprint_black)
-            }
-
-            SensorTYPE.TAC -> {
-                val ppb = packet.sensorValue
-                val stato = if (ppb < 100) "Sicuro" else "Attenzione"
-                LiveDataModel("Etanolo", "$ppb ppb", stato, R.drawable.ethinol)
-            }
-
-            SensorTYPE.PPG -> {
-                // Esempio per PPG (Battito Cardiaco)
-                LiveDataModel("PPG", "${packet.sensorValue} BPM", "Stabile", R.drawable.beat_heart)
-            }
-
-        null -> null
-    }
-}*/
-
+}
    fun numeroElettrodiAttivi( bit: Int): Int{
         var count = 0
         for(i in 0 until 16){

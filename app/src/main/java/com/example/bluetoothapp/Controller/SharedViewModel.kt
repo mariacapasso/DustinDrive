@@ -16,7 +16,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.bluetoothapp.Model.LocationAccelState
 import com.example.bluetoothapp.Model.LiveDataModel
 import com.example.bluetoothapp.Model.PacketParser
 import com.example.bluetoothapp.Model.ParsedPacket
@@ -42,14 +41,14 @@ import kotlin.math.sqrt
 class SharedViewModel (application: Application) : AndroidViewModel(application), SensorEventListener {
     private val context = application.applicationContext
 
-    // Riferimenti ai manager hardware
+    // Riferimenti ai sensori dello smartphone(Accelerometro e GPS)
 
     private val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     private val accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
     private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
     private var locationCallback: LocationCallback? = null
 
-    // LiveData per esporre i dati in tempo reale ai Fragment (UI)
+    // LiveData per esporre i dati in tempo reale ai Fragment
     private val _currentLocation = MutableLiveData<Location>()
     val currentLocation: LiveData<Location> get() = _currentLocation
 
@@ -70,7 +69,6 @@ class SharedViewModel (application: Application) : AndroidViewModel(application)
     private val _monitorItems = MutableLiveData<List<LiveDataModel>>()
     val monitorItems: LiveData<List<LiveDataModel>> = _monitorItems
 
-    // private val readAllData: Flow<List<SensorDataEntity>>
     private val repository: SensorDataRepository
     private val _ppgDataPoint = MutableLiveData<Pair<Float, Float>>()
     val ppgDataPoint: LiveData<Pair<Float, Float>> get() = _ppgDataPoint
@@ -82,14 +80,15 @@ class SharedViewModel (application: Application) : AndroidViewModel(application)
     private val _exportResult = MutableLiveData<String>()
     val exportResult: LiveData<String> = _exportResult
     private var isEverConnected = false
+    @Volatile private var currentLatitude: Double = 0.0
+    @Volatile private var currentLongitude: Double = 0.0
+    @Volatile private var currentAvgAcc: Double = 0.0
 
     init {
         val sensorDataDAO = SensorDataDb.getDatabase(application).sensorDataDao()
         repository = SensorDataRepository(sensorDataDAO)
-        // readAllData = repository.readAllData
 
-
-        // 1. Inizializzazione base delle card
+        // Inizializzazione base delle card dove vengono mostrati i dati in tempo reale
         _monitorItems.value = listOf(
             LiveDataModel("Touch", "--", "In attesa...", R.drawable.fingerprint_black),
             LiveDataModel("Batteria", "100%", "In attesa...", R.drawable.batteria),
@@ -97,42 +96,7 @@ class SharedViewModel (application: Application) : AndroidViewModel(application)
             LiveDataModel("PPG", "--", "---", R.drawable.beat_heart)
         )
 
-        /* viewModelScope.launch(Dispatchers.IO) {
-            btManager.processedDataFlow.collect { packet ->
-                //val parsedData = PacketParser.startParse(packet)
-                // val realTimestamp = TimeStampSync.computeTimestamp(packet.ts.toLong())
-                val parsedData = PacketParser.startParse(packet)
-                parsedData?.let { data ->
-                    //Aggiorna card UI
-                    latestDataMap[data.type] = data
-                    val formattedValue = when (data) {
-                        is ParsedPacket.Battery -> "${data.percentage}%"
-                        is ParsedPacket.Touch -> if (data.isActive) "ATTIVO" else "NON ATTIVO"
-                        is ParsedPacket.TAC -> "${data.ppbValue} ppb"
-                        is ParsedPacket.PPG -> "${data.bpmValue} "
-                    }
-
-                   // val realTimestamp = TimeStampSync.computeTimestamp(packet.ts.toLong())
-                    //prepara entity e la inserisce nel DB
-                    val entity = SensorDataEntity(
-                        type = data.type,
-                        value =packet.sensorValue ,
-                        timestamp = data.rawTimeStamp,
-                        latitude = LocationAccelState.latitude,
-                        longitude = LocationAccelState.longitude,
-                        avgAcceleration = String.format(Locale.ITALY,"%.2f",LocationAccelState.avgAcceleration)
-
-
-                    )
-                    if (entity.type != SensorTYPE.PPG) {
-                        repository.addData(entity)
-                    }
-
-                }
-            }
-        }*/
-
-        // 3. TIMER UI: Aggiorna l'interfaccia ogni 500ms
+        // TIMER UI: Aggiorna l'interfaccia ogni 500ms
         // Questo distacca la ricezione dati dalla visualizzazione
         viewModelScope.launch {
             while (isActive) {
@@ -141,18 +105,18 @@ class SharedViewModel (application: Application) : AndroidViewModel(application)
             }
         }
 
-        // 1. Avvia l'ascolto dell'accelerometro subito
+        // Avvia l'ascolto dell'accelerometro subito
         accelerometer?.let {
             sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
         }
 
-        // 2. Avvia il loop asincrono per calcolare la media ogni 15 secondi
+        // Avvia il loop asincrono per calcolare la media ogni 15 secondi
         startAccelerationTimer()
 
-        // 3. Avvia il tracking continuo del GPS ogni secondo
+        // Avvia il tracking continuo del GPS ogni secondo
         startLocationUpdates()
 
-        // 4. Avvia la ricezione Bluetooth dall'ESP32 e il salvataggio immediato
+        // Avvia la ricezione dei dati via Bluetooth e il salvataggio immediato
         startBluetoothDataCollection()
 
         viewModelScope.launch {
@@ -180,7 +144,6 @@ class SharedViewModel (application: Application) : AndroidViewModel(application)
     fun addData(data: SensorDataEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.addData(data)
-            //Log.d("DB_TEST", "Inserito nel DB -> Tipo: ${data.type}, Valore: ${data.value}, Tempo: ${data.timestamp}")
         }
     }
 
@@ -271,10 +234,11 @@ class SharedViewModel (application: Application) : AndroidViewModel(application)
                 synchronized(accelBuffer) {
                     if (accelBuffer.isNotEmpty()) {
                         val mediaAcc = accelBuffer.average()
-                        LocationAccelState.avgAcceleration = mediaAcc
+                        currentAvgAcc=mediaAcc
+                       // LocationAccelState.avgAcceleration = mediaAcc
                         val maxG = accelBuffer.maxOrNull() ?: 0.0
 
-                        // Notifica la UI (sul Main Thread)
+                        // Notifica la UI
                         _currentAvgAcceleration.postValue(mediaAcc)
                         _currentMaxG.postValue(maxG)
                         accelBuffer.clear()
@@ -294,10 +258,8 @@ class SharedViewModel (application: Application) : AndroidViewModel(application)
             locationCallback = object : LocationCallback() {
                 override fun onLocationResult(locationResult: LocationResult) {
                     val lastLoc = locationResult.lastLocation ?: return
-
-                    // Aggiorna lo stato globale per il DB
-                    LocationAccelState.latitude = lastLoc.latitude
-                    LocationAccelState.longitude = lastLoc.longitude
+                    currentLatitude = lastLoc.latitude
+                    currentLongitude = lastLoc.longitude
 
                     // Passa l'oggetto alla mappa (UI)
                     _currentLocation.postValue(lastLoc)
@@ -310,7 +272,6 @@ class SharedViewModel (application: Application) : AndroidViewModel(application)
                 Looper.getMainLooper()
             )
         } catch (e: SecurityException) {
-            // Permessi mancanti gestiti nella UI
         }
     }
 
@@ -324,38 +285,20 @@ class SharedViewModel (application: Application) : AndroidViewModel(application)
                         _ppgDataPoint.postValue(Pair(xIndexPPG++, data.bpmValue.toFloat()))
                     }
                     latestDataMap[data.type] = data
-                    /* when (data) {
-                        is ParsedPacket.Battery -> "${data.percentage}%"
-                        is ParsedPacket.Touch -> if (data.isActive) "ATTIVO" else "NON ATTIVO"
-                        is ParsedPacket.TAC -> "${data.ppbValue} ppb"
-                        is ParsedPacket.PPG -> "${data.bpmValue} "
-                    }*/
-
-                    val currentLat = LocationAccelState.latitude ?: 0.0
-                    val currentLng = LocationAccelState.longitude ?: 0.0
-                    val currentAvgAcc = LocationAccelState.avgAcceleration ?: 0.0
-                   // val lastAvgAcceleration = LocationAccelState.lastAvgAcceleration
-
-                    // Filtro: Salva se varia l'accelerazione di almeno 0.01 o se è il primo avvio
-                    /*  val isAccelerationChanged = lastAvgAcceleration == null || abs(currentAvgAcc - lastAvgAcceleration) > 0.01
-
-                    if (isAccelerationChanged) {
-                        LocationAccelState.lastAvgAcceleration = currentAvgAcc*/
-
 
                     val entity = SensorDataEntity(
                         type = data.type,
                         value = packet.sensorValue,
                         timestamp = data.rawTimeStamp,
-                        latitude = currentLat,
-                        longitude = currentLng,
+                        latitude = currentLatitude,
+                        longitude = currentLongitude,
                         avgAcceleration = String.format(Locale.US, "%.2f", currentAvgAcc)
                     )
 
                     if (entity.type != SensorTYPE.PPG) {
                         repository.addData(entity)
                     }
-                    //}
+
                 }
             }
         }

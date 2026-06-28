@@ -44,7 +44,7 @@ class BluetoothFragment : Fragment() {
         override fun onServiceConnected(name: ComponentName, binder: IBinder) {
             bluetoothService = (binder as BluetoothService.LocalBinder).getService()
             bluetoothManager = bluetoothService!!.manager
-            // ora che il manager è pronto, inizializza la UI
+
             initRicercaDispositivi()
             observeState()
         }
@@ -73,10 +73,7 @@ class BluetoothFragment : Fragment() {
             Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
         }
     }
-       // bluetoothManager = BluetoothConnectionManager.getInstance(requireContext())
 
-        //initRicercaDispositivi()
-       // observeState()
 
     private fun initRicercaDispositivi() {
 
@@ -121,7 +118,6 @@ class BluetoothFragment : Fragment() {
 
     fun showPopup(message: String, action: Intent) {
         if (!isAdded) return
-       // context?.let{safeContext ->
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Operazione necessaria!")
         builder.setMessage(message)
@@ -136,7 +132,7 @@ class BluetoothFragment : Fragment() {
         }
             builder.show()
     }
-   // }
+
 
     private fun connettiDispositivo(nome: BluetoothDevice) {
         bluetoothManager.connect(nome)
@@ -154,8 +150,6 @@ class BluetoothFragment : Fragment() {
                 launch {
                     bluetoothManager.discoveredDevices.collect { devices ->
                         deviceListAdapter.updateList(devices)
-                        //binding.badgeCount.text = devices.size.toString()
-
                         // Mostra/nascondi empty state
                         val isEmpty = devices.isEmpty()
                         binding.emptyState.visibility =
@@ -167,7 +161,7 @@ class BluetoothFragment : Fragment() {
 
                 launch {
                     bluetoothManager.connectionState.collect { state ->
-                       // val safeContext = context ?: return@collect
+
                         when (state) {
                             is ConnectionState.Connected -> {
                                 deviceListAdapter.refreshConnectionState(state.device.address)

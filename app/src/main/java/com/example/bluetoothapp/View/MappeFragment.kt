@@ -66,7 +66,7 @@ class MappeFragment : Fragment(R.layout.fragment_mappe) {
 
         // Controlla i permessi del GPS
         checkLocationPermissions()
-        // OSSERVA IL GPS CENTRALIZZATO
+
         viewModel.currentLocation.observe(viewLifecycleOwner) { location ->
             val userPoint = GeoPoint(location.latitude, location.longitude)
 
@@ -130,7 +130,6 @@ class MappeFragment : Fragment(R.layout.fragment_mappe) {
 
     private fun checkLocationPermissions() {
         val fineLocation = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-        //val coarseLocation = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
 
         if (fineLocation != PackageManager.PERMISSION_GRANTED ) {
             requestPermissionLauncher.launch(
@@ -138,42 +137,6 @@ class MappeFragment : Fragment(R.layout.fragment_mappe) {
             )
         }
     }
-
-
-   /* override fun onResume() {
-        super.onResume()
-        //mSensorManager.registerListener(this,accelerometer, SensorManager.SENSOR_DELAY_NORMAL)
-        binding.mapView.onResume() // Necessario per il ciclo di vita di osmdroid
-        // AVVIO DEL LOOP TEMPORALE CICLICO (15 SECONDI)
-      /*  timerJob = viewLifecycleOwner.lifecycleScope.launch {
-            while (true) {
-                delay(updateTime) // Aspetta 15 secondi in modo asincrono
-                refreshUI()       // Aggiorna i testi
-            }
-        }*/
-
-        if (::locationOverlay.isInitialized) {
-            locationOverlay.enableMyLocation()
-        }
-    }*/
-
-    /*override fun onPause() {
-        super.onPause()
-
-      //  mSensorManager.unregisterListener(this)
-        binding.mapView.onPause() // Necessario per il ciclo di vita di osmdroid
-        // INTERRUZIONE DEL LOOP TEMPORALE PER EVITARE MEMORY LEAK IN BACKGROUND
-       // timerJob.cancel()
-        if (::locationOverlay.isInitialized) {
-            locationOverlay.disableMyLocation()
-        }
-        val fusedClient = LocationServices.getFusedLocationProviderClient(requireContext())
-        locationCallback?.let { fusedClient.removeLocationUpdates(it) }
-
-    }*/
-
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

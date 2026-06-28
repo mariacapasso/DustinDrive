@@ -65,7 +65,6 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.protolite.well.known.types)
-   // implementation(libs.filament.android)
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0")
     implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.31")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")

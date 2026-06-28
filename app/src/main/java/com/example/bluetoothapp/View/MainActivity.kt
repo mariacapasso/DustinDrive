@@ -19,18 +19,18 @@ class MainActivity : AppCompatActivity() {
 
         removeLightStatusBar()
         binding.swipeRefreshLayout.setOnRefreshListener {
-            // 1. Recupera il fragment che l'utente sta guardando in questo momento
+            // Recupera il fragment che l'utente sta guardando in questo momento
             val currentFragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
 
             if (currentFragment != null) {
-                // 2. Crea una nuova istanza pulita dello STESSO tipo di fragment
+                // Crea una nuova istanza pulita dello STESSO tipo di fragment
                 val newInstance = currentFragment::class.java.getDeclaredConstructor().newInstance()
 
-                // 3. Ricaricalo da capo
+                // Ricaricalo da capo
                 replaceFragment(newInstance)
             }
 
-            // 4. Spegne subito l'animazione del cerchio che gira
+            //  Spegne subito l'animazione del cerchio che gira
             binding.swipeRefreshLayout.isRefreshing = false
         }
         replaceFragment(HomeFragment())

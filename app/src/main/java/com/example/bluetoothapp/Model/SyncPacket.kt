@@ -23,13 +23,11 @@ object SyncPacket{
         packet[8] = (timestampMillis shr 8).toByte()
         packet[9] = (timestampMillis).toByte()
 
-        // CRC su byte 1–9 (TYPE + TIMESTAMP)
         val crc = Utility.calcola_crc16(packet.copyOfRange(1, 10))
 
         packet[10] = (crc shr 8).toByte()
         packet[11] = (crc).toByte()
 
-        // END
         packet[12] = 0x0A
 
 

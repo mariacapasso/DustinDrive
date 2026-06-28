@@ -36,7 +36,6 @@ class DashBoardFragment : Fragment(R.layout.fragment_dash_board) {
             binding.txtLastUpdate.text = dataFormattata.substringBeforeLast(" ")
         }
 
-        // Manteniamo i tuoi osservatori precedenti per il PPG
         viewModel.ppgDataPoint.observe(viewLifecycleOwner) { point ->
             binding.txtPpgValue.text = "Frequenza Cardiaca: ${point.second.toInt()}"
             addEntryPPG(point.first, point.second)
@@ -118,27 +117,5 @@ class DashBoardFragment : Fragment(R.layout.fragment_dash_board) {
     }
 }
 
-    /*
 
-override fun onResume() {
-    super.onResume()
-    mSensorManager.registerListener(this,accelerometer, SensorManager.SENSOR_DELAY_NORMAL)
-    // AVVIO DEL LOOP TEMPORALE CICLICO (15 SECONDI)
-      timerJob = viewLifecycleOwner.lifecycleScope.launch {
-          while (true) {
-              delay(updateTime) // Aspetta 15 secondi in modo asincrono
-              refreshUI()       // Aggiorna i testi
-          }
-      }
-
-
-}
-
-override fun onPause() {
-    super.onPause()
-    mSensorManager.unregisterListener(this)
-    // INTERRUZIONE DEL LOOP TEMPORALE PER EVITARE MEMORY LEAK IN BACKGROUND
-     timerJob.cancel()
-
-  }*/
 
