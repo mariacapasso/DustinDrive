@@ -9,7 +9,7 @@ L'applicazione ha richiesto l'implementazione delle seguenti funzionalità:
 - **Esportazione dei dati memorizzati** in un file .csv
   
 # Analisi Dettagliata dei Componenti e delle Classi
-<img width="3524" height="2489" alt="image" src="https://github.com/user-attachments/assets/58fc635f-7a32-429b-84d5-4b16ba9c9bdc" />
+<img width="3532" height="2498" alt="image" src="https://github.com/user-attachments/assets/e0a824f9-35ee-469f-b316-83bdb587e121" />
 
 ***Diagramma delle classi***
 
