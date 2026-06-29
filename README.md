@@ -109,7 +109,7 @@ A partire da Android 12, Google ha separato nettamente i permessi di scansione B
 
 ## Prerequisiti Hardware e Software
 1. **Ambiente di Sviluppo** : Android Studio,
-2. **Android SDK**: Compilazione impostata su API Livello 33 (Android 14), con compatibilità minima a partire da API Livello 26 (Android 8.0).
+2. **Android SDK**: Compilazione impostata su API Livello 36 (Android 16).
 3. **Dispositivo di Test**: È caldamente consigliato l'utilizzo di un dispositivo Android fisico dotato di modulo Bluetooth attivo. Gli emulatori standard di Android Studio non supportano la simulazione nativa del Bluetooth Classic (RFCOMM Socket). Nel caso specifico di questo progetto è stato utilizzato  lo smartphone **Xiaomi Mi 11 Lite**(Android 13) per testarne il funzionamento.
 
 ## Procedura per l'Esecuzione dell'Applicativo
