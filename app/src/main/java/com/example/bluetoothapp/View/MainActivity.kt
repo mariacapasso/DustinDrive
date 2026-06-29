@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
                 replaceFragment(newInstance)
             }
 
-            //  Spegne subito l'animazione del cerchio che gira
+            //  Spegne subito l'animazione dello swipeRefresh
             binding.swipeRefreshLayout.isRefreshing = false
         }
         replaceFragment(HomeFragment())
@@ -70,7 +70,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun removeLightStatusBar(){
         val controller = WindowCompat.getInsetsController(window, window.decorView)
-        // Set light status bar (dark icons)
          controller.isAppearanceLightStatusBars= true
         controller.isAppearanceLightNavigationBars= true
 

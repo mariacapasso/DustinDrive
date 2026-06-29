@@ -24,9 +24,6 @@ class SensorPacket (private val rawBytes: ByteArray) {
             )
 
 
-
-
-
      // Verifica la validità del pacchetto confrontando il CRC ricevuto
 
     fun isValid(): Boolean {
