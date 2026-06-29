@@ -116,7 +116,7 @@ A partire da Android 12, Google ha separato nettamente i permessi di scansione B
 
 #### Passo 1: Clonazione del Repository
 Apri il terminale della tua macchina locale o l'interfaccia Git integrata nel tuo IDE ed esegui il comando di clonazione:
-`git clone https://github.com/mariacapasso/nome-del-repository.git`.
+`git clone https://github.com/mariacapasso/DustinDrive`.
 
 #### Passo 2: Apertura e Sincronizzazione Gradle
 1. Avvia Android Studio.
